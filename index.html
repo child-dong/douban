@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style>
+		ul li{
+			list-style-type: none;
+			overflow: hidden;
+			margin-left: 20px;
+			margin-top: 40px;
+			position: relative;
+		}
+		li img{
+			float: left;
+		}
+		li p{
+			padding-left: 80px;
+		}
+		li a{
+			margin-left: 10px;
+		}
+	</style>
+	<script>
+		function show(data){
+			var oUl = document.getElementById('oUl');
+
+			for(var i=0;i<data.books.length;i++){
+				var li = document.createElement('li');
+
+				var img = document.createElement('img');
+				img.src = data.books[i].images.small;
+				li.appendChild(img);
+				
+				var a = document.createElement('a');
+				a.setAttribute('href',data.books[i].alt)
+				a.setAttribute('target',"_blank")
+				a.innerHTML = data.books[i].title;
+				li.appendChild(a);
+
+				var p = document.createElement('p');
+				p.innerHTML = data.books[i].author[0];
+				li.appendChild(p);
+
+				var hr = document.createElement('hr')
+				hr.style.marginTop = "50px";
+				li.appendChild(hr)
+
+				oUl.appendChild(li);
+			}
+			console.log(data)
+		}
+
+		window.onload = function(){
+			
+			var btn = document.getElementById('btn');
+			var inp = document.getElementById('inp');
+
+			btn.onclick = function(){
+				var oHead = document.getElementsByTagName('head')[0];
+				var oScript = document.createElement('script');
+				oScript.src ='https://api.douban.com/v2/book/search?q='+inp.value+'&callback=show';
+				oHead.appendChild(oScript);
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="text" id="inp" value="神雕侠侣">
+	<button id="btn">搜索</button>
+	<ul id="oUl">
+		<li></li>
+	</ul>
+</body>
+</html>
